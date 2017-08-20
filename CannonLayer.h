@@ -2,7 +2,7 @@
 #define CannonLayer_H
 #include "cocos2d.h"
 #include "Cannon.h"
-#include "FishNet.h"
+#include "Weapon.h"
 USING_NS_CC;
 class CannonLayer :
 	public Layer

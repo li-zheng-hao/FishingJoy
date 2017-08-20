@@ -23,8 +23,10 @@ bool CannonLayer::init()
 
 void CannonLayer::cannonAimAt(const Vec2 & pos)
 {
+	_cannon->setAngle(pos);
 }
 
 void CannonLayer::cannonShootTo(const Vec2 & pos)
 {
+
 }

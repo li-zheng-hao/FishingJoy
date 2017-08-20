@@ -60,4 +60,7 @@ void Cannon::setCannon(CannonType type)
 
 void Cannon::setAngle(const Vec2 & pos)
 {
+	float angle = ccpAngleSigned(ccpSub(pos,this->getPosition()),Vec2(0,1));
+	this->setRotation(CC_RADIANS_TO_DEGREES(angle));//弧度转换成度数
+
 }
