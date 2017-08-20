@@ -7,7 +7,7 @@ bool TouchLayer::init()
 	listener->onTouchBegan = CC_CALLBACK_2(TouchLayer::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(TouchLayer::onTouchMoved, this);
 	listener->onTouchEnded = CC_CALLBACK_2(TouchLayer::onTouchEnded, this);
-	_eventDispatcher->addEventListenerWithFixedPriority(listener, 0);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener,this);
 	return true;
 }
 
@@ -28,4 +28,6 @@ void TouchLayer::onTouchEnded(Touch * touch, Event * event)
 {
 	auto mainscene = (MainScene*)this->getParent();
 	mainscene->cannonShootTo(touch->getLocation());
+	CCLOG("TouchLayer::onTouchEnded-----%f-%f", touch->getLocation().x, touch->getLocation().y);
+
 }

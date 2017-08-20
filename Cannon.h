@@ -26,6 +26,7 @@ public:
 	 * @brief 每次点击加减的时候改变炮台的level
 	 */
 	void setCannon(CannonType type);
+	CannonType getCannonType();
 	/*
 	 * 2017/08/19
 	 * @brief 设置炮台的角度

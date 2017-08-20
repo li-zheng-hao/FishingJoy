@@ -17,6 +17,7 @@ protected:
 	Cannon* _cannon;
 	Sprite* _add_button;
 	Sprite* _reduce_button;
+	Weapon* _weapon;
 	int _cannonLevel;
 };
 #endif

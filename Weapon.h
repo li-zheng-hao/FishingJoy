@@ -17,11 +17,13 @@ public:
 	bool init(CannonType type=k_Cannon_Type_1);
 
 	void shootTo(const Vec2& pos);
-
+	void shootEnd();
+	void removeFishNet();
 
 public:
 	Sprite* _bullet;
 	Sprite* _fishNet;
+	Vec2 _collisionPos;
 
 	
 };
