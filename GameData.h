@@ -26,7 +26,6 @@ public:
 	int getIntFromKey(const std::string &key)const;
 	float getFloatFromKey(const std::string &key)const;
 	bool getBoolFromKey(const std::string &key)const;
-
 protected:
 	static GameData* _sharedGameData;
 	Dictionary* _data;

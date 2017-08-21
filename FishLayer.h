@@ -17,6 +17,7 @@ public:
 	void addFish(float dt);
 	void resetFish(Fishes* fish);
 protected:
+
 	Vector<Fishes*> _fishes;
 };
 

@@ -40,7 +40,6 @@ Weapon * Weapon::create(CannonType type)
 
 void Weapon::shootTo(const Vec2 & pos)
 {
-	CCLOG("Weap::ShootTo-----%f-%f", pos.x, pos.y);
 	_collisionPos = pos;
 	_bullet->setVisible(true);
 	float angle = ccpAngleSigned(ccpSub(this->getPosition(), pos), CCPointMake(0, 1));

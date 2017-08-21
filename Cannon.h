@@ -15,7 +15,7 @@ typedef enum CannonType
 	k_Cannon_Type_Count,
 };
 class Cannon :
-	public Node
+	public Sprite
 {
 public:
 	static Cannon* create(CannonType type = k_Cannon_Type_1);
@@ -32,6 +32,8 @@ public:
 	 * @brief 设置炮台的角度
 	 */
 	void setAngle(const Vec2& pos);
+
+	void runShootAction();
 public:
 	CannonType _cannonType;
 	Vector<Sprite*> _cannonSprites;

@@ -59,3 +59,7 @@ void Fishes::reset()
 	this->setRotation(0);
 	this->setVisible(true);
 }
+
+void Fishes::beCaught()
+{
+}

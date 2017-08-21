@@ -20,7 +20,6 @@ public:
 	 * 2017/08/19
 	 * @brief 对炮台进行一些操作
 	 */
-	
 	void cannonAimAt(const Vec2 &pos);
 	void cannonShootTo(const Vec2& pos);
 protected:

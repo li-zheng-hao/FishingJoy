@@ -13,10 +13,12 @@ public:
 
 	void cannonAimAt(const Vec2& pos);
 	void cannonShootTo(const Vec2& pos);
+
+	void switchCannon(Ref* callfunc);
 protected:
 	Cannon* _cannon;
-	Sprite* _add_button;
-	Sprite* _reduce_button;
+	MenuItemSprite* _add_button;
+	MenuItemSprite* _reduce_button;
 	Weapon* _weapon;
 	int _cannonLevel;
 };

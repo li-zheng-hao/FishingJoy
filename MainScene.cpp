@@ -1,6 +1,13 @@
 #include "MainScene.h"
-
-
+enum
+{
+	k_MainScene_TouchLayer,
+	k_MainScene_CannonLayer,
+	k_MainScene_FishLayer,
+	k_MainScene_UILayer,
+	k_MainScene_BackgroundLayer,
+	k_MainScene_LayerCount
+};
 bool MainScene::init()
 {
 	if (Scene::init())
@@ -17,19 +24,19 @@ bool MainScene::init()
 		 * @brief 所有层的加载
 		 */
 		_touchLayer = TouchLayer::create();
-		this->addChild(_touchLayer, 5);
+		this->addChild(_touchLayer, 5,k_MainScene_TouchLayer);
 
 		_cannonLayer = CannonLayer::create();
-		this->addChild(_cannonLayer,4);
+		this->addChild(_cannonLayer,4,k_MainScene_CannonLayer);
 
 		_fishLayer = FishLayer::create();
-		this->addChild(_fishLayer, 2);
+		this->addChild(_fishLayer, 2,k_MainScene_FishLayer);
 		
 		_uiLayer = UILayer::create();
-		this->addChild(_uiLayer,3);
+		this->addChild(_uiLayer,3,k_MainScene_UILayer);
 
 		_backGroundLayer = BackGroundLayer::create();
-		this->addChild(_backGroundLayer, 1);
+		this->addChild(_backGroundLayer, 1,k_MainScene_BackgroundLayer);
 		return true;
 	}
 	return false;
@@ -71,15 +78,15 @@ void MainScene::preloadSources()
 	 */
 	for (int i=k_Cannon_Type_1;i<k_Cannon_Type_Count;i++)
 	{
-		Vector<SpriteFrame*> frames(2);
+		Vector<SpriteFrame*> newframes(2);
 		for (int j=1;j<=2;j++)
 		{
 			String* frameName = String::createWithFormat("Cannon%d_%d", i + 1, j);
 			SpriteFrame* sprite = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(frameName->getCString()));
-			frames.pushBack(sprite);
+			newframes.pushBack(sprite);
 		}
-		auto animation = Animation::createWithSpriteFrames(frames);
-		animation->setDelayPerUnit(0.1f);
+		auto animation = Animation::createWithSpriteFrames(newframes);
+		animation->setDelayPerUnit(0.2f);
 		String* animationName = String::createWithFormat("cannonanimation%d",i);
 		AnimationCache::getInstance()->addAnimation(animation, animationName->getCString());
 	}

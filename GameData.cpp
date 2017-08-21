@@ -1,5 +1,4 @@
 #include "GameData.h"
-
 GameData* GameData::_sharedGameData = nullptr;
 
 GameData * GameData::getInstance()

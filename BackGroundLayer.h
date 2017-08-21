@@ -11,7 +11,6 @@ public:
 	bool init();
 protected:
 	Sprite* _background;
-
 };
 
 #endif

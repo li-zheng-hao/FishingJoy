@@ -38,6 +38,13 @@ public:
 	 */
 	void reset();
 
+
+	/*
+	 * 2017/08/21
+	 * @brief Óã±»²¶×½µÄº¯Êý
+	 */
+	void beCaught();
+
 public:
 	FishType _type;
 	Sprite* _sprite;
