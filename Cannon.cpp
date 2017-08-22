@@ -78,8 +78,9 @@ void Cannon::runShootAction()
 {
 	//大概知道错误了，因为是cannon添加了子结点sprite是炮台，所以要炮台执行animate，而不是cannon本身执行animate
 	//明天来解决这个bug
+	auto newCannon = (Sprite*)_cannonSprites.at(_cannonType);
 	String* cannonAnimationName = String::createWithFormat("cannonanimation%d", this->getCannonType());
 	auto animation = AnimationCache::getInstance()->getAnimation(cannonAnimationName->getCString());
 	auto animate = Animate::create(animation);
-	this->runAction(animate);
+	newCannon->runAction(animate);
 }

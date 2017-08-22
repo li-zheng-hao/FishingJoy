@@ -27,7 +27,6 @@ void FishLayer::addFish(float dt)
 		fish = (Fishes*)iter;
 		if (fish->getParent()==nullptr)
 		{
-			
 			this->resetFish(fish);
 			this->addChild(fish);
 			/*

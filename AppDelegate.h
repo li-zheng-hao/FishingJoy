@@ -23,6 +23,7 @@ public:
     */
     virtual bool applicationDidFinishLaunching();
 
+
     /**
     @brief  Called when the application moves to the background
     @param  the pointer of the application
