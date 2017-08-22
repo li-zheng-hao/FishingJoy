@@ -76,18 +76,18 @@ void MainScene::preloadSources()
 	 * 2017/08/19
 	 * @brief 加载炮台发射炮弹时放大动画
 	 */
-	for (int i=k_Cannon_Type_1;i<k_Cannon_Type_Count;i++)
+	for (int fishtype=k_Cannon_Type_1;fishtype<k_Cannon_Type_Count;fishtype++)
 	{
 		Vector<SpriteFrame*> newframes(2);
 		for (int j=1;j<=2;j++)
 		{
-			String* frameName = String::createWithFormat("Cannon%d_%d", i + 1, j);
+			String* frameName = String::createWithFormat("Cannon%d_%d", fishtype + 1, j);
 			SpriteFrame* sprite = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(frameName->getCString()));
 			newframes.pushBack(sprite);
 		}
 		auto animation = Animation::createWithSpriteFrames(newframes);
 		animation->setDelayPerUnit(0.2f);
-		String* animationName = String::createWithFormat("cannonanimation%d",i);
+		String* animationName = String::createWithFormat("cannonanimation%d",fishtype);
 		AnimationCache::getInstance()->addAnimation(animation, animationName->getCString());
 	}
 
@@ -106,6 +106,46 @@ void MainScene::preloadSources()
 	animation->setDelayPerUnit(0.04f);
 	AnimationCache::getInstance()->addAnimation(animation, "net");
 
+
+	/*
+	 * 2017/08/22
+	 * @brief 鱼被捕捉成功的动画,一共两种，第一种有2帧，第二种有4帧
+	 */
+
+	 int fishcaughttype = STATIC_DATA_INT("fishcaughtcountone");
+	 framecount = STATIC_DATA_INT("fishcaughtcountoneframes");
+	 int fishtype = 1;
+	 for (;fishtype<=fishcaughttype;fishtype++)
+	 {
+		 Vector<SpriteFrame*> vec(framecount);
+		 for (int j=1;j<=fishcaughttype;j++)
+		 {
+			 String* framename = String::createWithFormat("fish%d_catch_%d",fishtype,j);
+			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(framename->getCString());
+			 vec.pushBack(spr);
+		 }
+		 auto animation = Animation::createWithSpriteFrames(vec);
+		 animation->setDelayPerUnit(0.2f);
+		 auto animationName = String::createWithFormat("fishcaught%d", fishtype);
+		 AnimationCache::getInstance()->addAnimation(animation,animationName->getCString());
+	 }
+	 fishcaughttype = STATIC_DATA_INT("fishcaughtcounttwo");
+	 framecount = STATIC_DATA_INT("fishcaughtcounttwoframes");
+	 for (;fishtype<=fishcaughttype;fishtype++)
+	 {
+		 Vector<SpriteFrame*> vec(framecount);
+		 for (int j = 1; j <= fishcaughttype; j++)
+		 {
+			 String* framename = String::createWithFormat("fish%d_catch_%d", fishtype, j);
+			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(framename->getCString());
+			 vec.pushBack(spr);
+		 }
+		 auto animation = Animation::createWithSpriteFrames(vec);
+		 animation->setDelayPerUnit(0.2f);
+		 auto animationName = String::createWithFormat("fishcaught%d", fishtype);
+		 AnimationCache::getInstance()->addAnimation(animation, animationName->getCString());
+	 }
+
 }
 
 void MainScene::cannonAimAt(const Vec2 & pos)
@@ -116,6 +156,5 @@ void MainScene::cannonAimAt(const Vec2 & pos)
 void MainScene::cannonShootTo(const Vec2 & pos)
 {
 	_cannonLayer->cannonShootTo(pos);
-	//todo
 }
 

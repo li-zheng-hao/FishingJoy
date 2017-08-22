@@ -11,6 +11,7 @@ public:
 protected:
 	Sprite* _menu1;
 	Sprite* _menu2;
+
 };
 
 #endif
