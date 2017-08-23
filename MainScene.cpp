@@ -37,6 +37,9 @@ bool MainScene::init()
 
 		_backGroundLayer = BackGroundLayer::create();
 		this->addChild(_backGroundLayer, 1,k_MainScene_BackgroundLayer);
+
+
+		this->schedule(schedule_selector(MainScene::checkAreaBetweenFishAndFishNet));
 		return true;
 	}
 	return false;
@@ -156,5 +159,24 @@ void MainScene::cannonAimAt(const Vec2 & pos)
 void MainScene::cannonShootTo(const Vec2 & pos)
 {
 	_cannonLayer->cannonShootTo(pos);
+}
+
+void MainScene::checkAreaBetweenFishAndFishNet(float dt)
+{
+	if (_cannonLayer->isShoot())
+	{
+		Vector<Fishes*> vec = _fishLayer->_fishes;
+		Rect fishNetArea = _cannonLayer->getFishNetCollisionArea();
+		for (int i = 0; i < vec.size(); ++i)
+		{
+			Fishes* temp = vec.at(i);
+			auto size = temp->getFishRect();
+			if (size.intersectsRect(fishNetArea))
+			{
+				temp->beCaught();
+			}
+		}
+	}
+
 }
 

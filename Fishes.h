@@ -44,7 +44,10 @@ public:
 	 * @brief Óã±»²¶×½µÄº¯Êý
 	 */
 	void beCaught();
+	void callfunc();
 
+
+	Rect getFishRect();
 public:
 	FishType _type;
 	Sprite* _sprite;

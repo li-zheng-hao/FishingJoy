@@ -13,8 +13,10 @@ public:
 
 	void cannonAimAt(const Vec2& pos);
 	void cannonShootTo(const Vec2& pos);
-
+	Rect getFishNetCollisionArea();
 	void switchCannon(Ref* callfunc);
+
+	bool isShoot();
 protected:
 	Cannon* _cannon;
 	MenuItemSprite* _add_button;

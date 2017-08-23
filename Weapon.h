@@ -20,6 +20,8 @@ public:
 	void shootEnd();
 	void removeFishNet();
 
+	Rect getFishNetCollisionArea();
+
 public:
 	Sprite* _bullet;
 	Sprite* _fishNet;

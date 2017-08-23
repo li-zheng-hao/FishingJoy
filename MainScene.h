@@ -22,6 +22,13 @@ public:
 	 */
 	void cannonAimAt(const Vec2 &pos);
 	void cannonShootTo(const Vec2& pos);
+
+	/*
+	 * 2017/08/23
+	 * @brief 判断渔网和鱼之间是否交叉
+	 */
+
+	void checkAreaBetweenFishAndFishNet(float dt);
 protected:
 	UILayer* _uiLayer;
 	TouchLayer* _touchLayer;

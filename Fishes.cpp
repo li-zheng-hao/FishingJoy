@@ -62,4 +62,21 @@ void Fishes::reset()
 
 void Fishes::beCaught()
 {
+	this->stopActionByTag(k_Fish_Action);
+	auto animationname = String::createWithFormat("fishcaught%d",(int)_type);//这里出了问题，没有查到帧动画
+	auto animation = AnimationCache::getInstance()->getAnimation(animationname->getCString());
+	auto animate = Animate::create(animation);
+	auto callfun = CallFunc::create(this, callfunc_selector(Fishes::callfunc));
+	auto seq = Sequence::create(animate, callfun, NULL);
+	this->runAction(seq);
+}
+
+void Fishes::callfunc()
+{
+	this->removeFromParentAndCleanup(false);
+}
+
+cocos2d::Rect Fishes::getFishRect()
+{
+	return _sprite->getBoundingBox();
 }

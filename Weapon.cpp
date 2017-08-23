@@ -72,3 +72,8 @@ void Weapon::removeFishNet()
 		_fishNet->removeFromParent();
 	}
 }
+
+cocos2d::Rect Weapon::getFishNetCollisionArea()
+{
+	return this->_fishNet->getBoundingBox();
+}

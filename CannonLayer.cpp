@@ -45,6 +45,11 @@ void CannonLayer::cannonShootTo(const Vec2 & pos)
 	_weapon->shootTo(pos);
 }
 
+Rect CannonLayer::getFishNetCollisionArea()
+{
+	return this->_weapon->getFishNetCollisionArea();
+}
+
 void CannonLayer::switchCannon(Ref * callfunc)
 {
 	CannonType type = _cannon->getCannonType();
@@ -57,4 +62,13 @@ void CannonLayer::switchCannon(Ref * callfunc)
 		type = (CannonType)(type + 1);
 	}
 	_cannon->setCannon(type);
+}
+
+bool CannonLayer::isShoot()
+{
+	if (_weapon)
+	{
+		return true;
+	}
+	return false;
 }
