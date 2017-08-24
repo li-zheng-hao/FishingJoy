@@ -8,7 +8,9 @@ typedef enum Weapon_Type
 	k_Weapon_Bullet,
 	k_Weapon_FishNet,
 	k_Weapon_Count,
+	k_Weapon_None
 };
+
 class Weapon :
 	public Node
 {
@@ -21,11 +23,14 @@ public:
 	void removeFishNet();
 
 	Rect getFishNetCollisionArea();
-
+	Weapon_Type getWeaponStatus();
+	
 public:
 	Sprite* _bullet;
 	Sprite* _fishNet;
 	Vec2 _collisionPos;
+
+	bool _shootEnd;
 
 	
 };

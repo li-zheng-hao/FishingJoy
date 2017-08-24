@@ -20,7 +20,7 @@ typedef enum {
 	k_Fish_Count
 }FishType;
 class Fishes:
-	public Node
+	public Sprite
 {
 public:
 	static Fishes* create(FishType type = k_Fish_One);
@@ -44,13 +44,17 @@ public:
 	 * @brief Óã±»²¶×½µÄº¯Êý
 	 */
 	void beCaught();
-	void callfunc();
 
 
 	Rect getFishRect();
 public:
 	FishType _type;
 	Sprite* _sprite;
+
+protected:
+
+	void callfunc();
+
 	
 };
 

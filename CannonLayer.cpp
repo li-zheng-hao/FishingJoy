@@ -40,14 +40,21 @@ void CannonLayer::cannonShootTo(const Vec2 & pos)
 	_weapon = Weapon::create(_cannon->getCannonType());
 	_weapon->setPosition(_cannon->getPosition());
 	_weapon->setPositionY(_weapon->getPositionY());
-	this->addChild(_weapon,1);
+	this->addChild(_weapon,1,"weapon");
 
 	_weapon->shootTo(pos);
 }
 
 Rect CannonLayer::getFishNetCollisionArea()
 {
-	return this->_weapon->getFishNetCollisionArea();
+	//if (this->getChildByName("weapon"))
+	{
+		return this->_weapon->getFishNetCollisionArea();
+	}
+	//else
+	{
+	//	return Rect::ZERO;
+	}
 }
 
 void CannonLayer::switchCannon(Ref * callfunc)
@@ -64,9 +71,14 @@ void CannonLayer::switchCannon(Ref * callfunc)
 	_cannon->setCannon(type);
 }
 
+Weapon* CannonLayer::getWeapon()
+{
+	return _weapon;
+}
+
 bool CannonLayer::isShoot()
 {
-	if (_weapon)
+	if (_weapon!=nullptr)
 	{
 		return true;
 	}

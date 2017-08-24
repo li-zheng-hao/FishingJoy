@@ -15,7 +15,7 @@ public:
 	void cannonShootTo(const Vec2& pos);
 	Rect getFishNetCollisionArea();
 	void switchCannon(Ref* callfunc);
-
+	Weapon* getWeapon();
 	bool isShoot();
 protected:
 	Cannon* _cannon;

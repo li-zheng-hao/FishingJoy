@@ -116,15 +116,18 @@ void MainScene::preloadSources()
 	 */
 
 	 int fishcaughttype = STATIC_DATA_INT("fishcaughtcountone");
+	// CCLOG("mainscene fishcaughttypeone:%d ", fishcaughttype);
 	 framecount = STATIC_DATA_INT("fishcaughtcountoneframes");
 	 int fishtype = 1;
 	 for (;fishtype<=fishcaughttype;fishtype++)
 	 {
 		 Vector<SpriteFrame*> vec(framecount);
-		 for (int j=1;j<=fishcaughttype;j++)
+		 for (int j=1;j<=framecount;j++)
 		 {
+
 			 String* framename = String::createWithFormat("fish%d_catch_%d",fishtype,j);
-			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(framename->getCString());
+			 CCLOG("framename :%s", framename->getCString());
+			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(framename->getCString()));
 			 vec.pushBack(spr);
 		 }
 		 auto animation = Animation::createWithSpriteFrames(vec);
@@ -133,14 +136,15 @@ void MainScene::preloadSources()
 		 AnimationCache::getInstance()->addAnimation(animation,animationName->getCString());
 	 }
 	 fishcaughttype = STATIC_DATA_INT("fishcaughtcounttwo");
+
 	 framecount = STATIC_DATA_INT("fishcaughtcounttwoframes");
 	 for (;fishtype<=fishcaughttype;fishtype++)
 	 {
 		 Vector<SpriteFrame*> vec(framecount);
-		 for (int j = 1; j <= fishcaughttype; j++)
+		 for (int j = 1; j <= framecount; j++)
 		 {
 			 String* framename = String::createWithFormat("fish%d_catch_%d", fishtype, j);
-			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(framename->getCString());
+			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(framename->getCString()));
 			 vec.pushBack(spr);
 		 }
 		 auto animation = Animation::createWithSpriteFrames(vec);
@@ -167,14 +171,19 @@ void MainScene::checkAreaBetweenFishAndFishNet(float dt)
 	{
 		Vector<Fishes*> vec = _fishLayer->_fishes;
 		Rect fishNetArea = _cannonLayer->getFishNetCollisionArea();
-		for (int i = 0; i < vec.size(); ++i)
+		for(auto iter:vec)
 		{
-			Fishes* temp = vec.at(i);
-			auto size = temp->getFishRect();
-			if (size.intersectsRect(fishNetArea))
+			Fishes* fish=(Fishes*)iter;
+			if (fish->isRunning())
 			{
-				temp->beCaught();
+				
+				auto size = fish->getFishRect();
+				if (size.intersectsRect(fishNetArea))
+				{
+					fish->beCaught();
+				}
 			}
+			
 		}
 	}
 

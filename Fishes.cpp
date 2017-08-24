@@ -3,7 +3,8 @@
 typedef enum ActionType
 {
 	k_Fish_Animate,
-	k_Fish_Action
+	k_Fish_Action,
+	k_Fish_beCaught
 };
 Fishes * Fishes::create(FishType type)
 {
@@ -31,7 +32,6 @@ bool Fishes::init(FishType type)
 	_sprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(spriteName->getCString())));
 	String realname = STATIC_DATA_STRING(spriteName->getCString());
 	_sprite = Sprite::create(realname.getCString());
-	CCLOG("%f,%f", _sprite->getContentSize().width, _sprite->getContentSize().height);
 	this->addChild(_sprite);
 	_sprite->runAction(RepeatForever::create(animate));
 	return true;
@@ -55,28 +55,37 @@ void Fishes::moveActionEnd()
 
 void Fishes::reset()
 {
-	
 	this->setRotation(0);
 	this->setVisible(true);
 }
 
 void Fishes::beCaught()
 {
+	CCLOG("fish has been removed");
 	this->stopActionByTag(k_Fish_Action);
-	auto animationname = String::createWithFormat("fishcaught%d",(int)_type);//这里出了问题，没有查到帧动画
-	auto animation = AnimationCache::getInstance()->getAnimation(animationname->getCString());
-	auto animate = Animate::create(animation);
-	auto callfun = CallFunc::create(this, callfunc_selector(Fishes::callfunc));
-	auto seq = Sequence::create(animate, callfun, NULL);
-	this->runAction(seq);
+
+	CCDelayTime* delayTime = CCDelayTime::create(1.0);
+	CCCallFunc* callFunc = CCCallFunc::create(this, callfunc_selector(Fishes::callfunc));
+	CCFiniteTimeAction* seq = CCSequence::create(delayTime, callFunc, NULL);
+	CCBlink* blink = CCBlink::create(1.0, 8);
+	CCFiniteTimeAction *spawn = CCSpawn::create(seq, blink, NULL);
+	this->runAction(spawn);
+
+	
 }
 
 void Fishes::callfunc()
 {
+	this->stopAllActions();//这里有bug，如果不暂停所有动作，那么每次添加新的鱼时，都会调用这个函数，最后界面上一条鱼都不会显示.
+	CCLOG("be call be call-----------------");
 	this->removeFromParentAndCleanup(false);
+
 }
 
 cocos2d::Rect Fishes::getFishRect()
 {
-	return _sprite->getBoundingBox();
+	CCPoint origin = this->getParent()->convertToWorldSpace(this->getPosition());
+	CCSize size = _sprite->getContentSize();
+	return CCRectMake(origin.x - size.width*0.5, origin.y - size.height*0.5, size.width, size.height);
+	
 }

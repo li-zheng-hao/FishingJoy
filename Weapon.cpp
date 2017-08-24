@@ -1,5 +1,6 @@
 #include "Weapon.h"
 #include "GameData.h"
+
 bool Weapon::init(CannonType type)
 {
 	
@@ -18,6 +19,7 @@ bool Weapon::init(CannonType type)
 	auto bulletName = String::createWithFormat("Shell%d", type + 1);
 	_bullet = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(bulletName->getCString())));
 	_bullet->setVisible(false);
+	_shootEnd = false;
 	this->addChild(_bullet);
 
 	return true;
@@ -55,7 +57,7 @@ void Weapon::shootTo(const Vec2 & pos)
 
 void Weapon::shootEnd()
 {
-	_bullet->removeFromParent();
+	_bullet->setVisible(false);
 	_fishNet->setVisible(true);
 	//_fishNet->setPosition(_collisionPos);
 	auto animation = AnimationCache::getInstance()->getAnimation("net");
@@ -67,13 +69,39 @@ void Weapon::shootEnd()
 
 void Weapon::removeFishNet()
 {
-	if (_fishNet->getParent())
-	{
-		_fishNet->removeFromParent();
-	}
+	_fishNet->setVisible(false);
+	_shootEnd = true;
+	//this->removeFromParentAndCleanup(false);
 }
 
 cocos2d::Rect Weapon::getFishNetCollisionArea()
 {
-	return this->_fishNet->getBoundingBox();
+	if ((int)this->getWeaponStatus()==2)
+	{
+		/*CCPoint origin = this->getParent()->convertToWorldSpace(this->getPosition());
+		CCSize size = _fishNet->getContentSize();
+		
+		return CCRectMake(origin.x - size.width*0.5, origin.y - size.height*0.5, size.width, size.height);*/
+		return this->getBoundingBox();
+	}
+	else
+	{
+		return Rect::ZERO;
+	}
+
+	
 }
+
+Weapon_Type Weapon::getWeaponStatus()
+{
+	if (_bullet->isVisible()==true)
+	{
+		return k_Weapon_Bullet;
+	}
+	else if (_fishNet->isVisible()==true)
+	{
+		return k_Weapon_Count;
+	}
+	return k_Weapon_None;
+}
+

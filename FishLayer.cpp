@@ -13,13 +13,15 @@ bool FishLayer::init()
 		auto fish = Fishes::create((FishType)type);
 		_fishes.pushBack(fish);
 	}
-	this->schedule(schedule_selector(FishLayer::addFish), 2);
+	this->schedule(schedule_selector(FishLayer::addFish), 3);
 	return true;
 }
 
 void FishLayer::addFish(float dt)
 {
+	
 	int fishesWillAddedNumber = random(5, 15);
+	//int fishesWillAddedNumber = 10;//todo
 	int fishesHasAdded = 0;
 	Fishes* fish;
 	for (auto iter:_fishes)
@@ -40,6 +42,16 @@ void FishLayer::addFish(float dt)
 			}
 		}
 	}
+	int freeFiss = 0;
+	for (int i = 0; i < _fishes.size(); i++)
+	{
+		Fishes* fish = (Fishes*)_fishes.at(i);
+		if (fish->getParent() == nullptr)
+		{
+			freeFiss++;
+		}
+	}
+	CCLOG("current free fish::%d", freeFiss);
 }
 
 void FishLayer::resetFish(Fishes * fish)
