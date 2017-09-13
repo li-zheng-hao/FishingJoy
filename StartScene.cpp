@@ -9,6 +9,10 @@
 #include "Fishes.h"
 #include "Cannon.h"
 #include "GameData.h"
+enum 
+{
+	k_Sprite_Type_Progress=0
+};
 bool StartScene::init()
 {
 	if (!Scene::init())
@@ -18,12 +22,13 @@ bool StartScene::init()
 
 	/*
 	 * 2017/09/12
-	 * @brief 后期从其他地方拼凑来的游戏资源，所以可能会有些地方不同步
+	 * @brief 有些资源是后面加进来的，所以代码写的和半个月前写的代码不一致
 	 */
-	this->preloadSources();
 
-	//背景层的添加
-	auto bg = BackGroundLayer::create();
+
+	//背景层的添加（新增加的界面，资源采用异步加载，所以暂时先就这样直接硬加载背景）
+	auto bg = Sprite::create("UI/background.jpg");
+	bg->setPosition(winSize.width / 2, winSize.height / 2);
 	this->addChild(bg);
 
 	//游戏标题
@@ -31,6 +36,25 @@ bool StartScene::init()
 	title->setPosition(Vec2(winSize.width/2,winSize.height/2+200));
 	title->setScale(1.5);
 	this->addChild(title);
+
+	//加载进度条背景
+	auto progress_bg = Sprite::create(STATIC_DATA_STRING("progress_bg"));
+	progress_bg->setPosition(winSize.width / 2, winSize.height / 2);
+	this->addChild(progress_bg);
+	//加载进度条
+	auto process_sprite = Sprite::create(STATIC_DATA_STRING("progress_bar"));
+	auto progress = ProgressTimer::create(process_sprite);
+	progress->setType(ProgressTimer::Type::BAR);
+	progress->setBarChangeRate(Vec2(1,0));
+	progress->setMidpoint(Vec2(0,1));
+	progress->setPosition(winSize.width / 2, winSize.height / 2);
+	progress->setPercentage(0);
+	progress->setTag(k_Sprite_Type_Progress);
+	this->addChild(progress);
+	
+	//异步加载资源
+	Director::getInstance()->getTextureCache()->addImageAsync("data.png", CC_CALLBACK_1
+	(StartScene::sourcesCallBack, this));
 
 	return true;
 }
@@ -143,5 +167,20 @@ void StartScene::preloadSources()
 		AnimationCache::getInstance()->addAnimation(animation, animationName->getCString());
 	}
 
+}
+
+void StartScene::sourcesCallBack(Texture2D* sender)
+{
+	this->preloadSources();
+	auto progress=(ProgressTimer*)this->getChildByTag(k_Sprite_Type_Progress);
+	auto ac=ProgressTo::create(2.0f, 100);
+	auto callfunc = CallFunc::create(this, callfunc_selector(StartScene::progressMaxCallBack));
+	auto seq = Sequence::create(ac, callfunc,NULL);
+	progress->runAction(seq);
+}
+
+void StartScene::progressMaxCallBack()
+{
+	CCLOG("successful!");
 }
 

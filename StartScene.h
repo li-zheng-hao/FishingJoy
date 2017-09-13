@@ -9,7 +9,8 @@ public:
 	virtual bool init();
 	void preloadSources();
 private:
-
+	void sourcesCallBack(Texture2D* sender);
+	void progressMaxCallBack();
 };
 
 
