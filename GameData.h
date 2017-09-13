@@ -2,34 +2,43 @@
 #define GameData_H
 #include "cocos2d.h"
 USING_NS_CC;
-#define STATIC_DATA_STRING(key) GameData::getInstance()->getStringFromKey(key)
-#define STATIC_DATA_INT(key) GameData::getInstance()->getIntFromKey(key)
-#define STATIC_DATA_FLOAT(key) GameData::getInstance()->getFloatFromKey(key)
-#define STATIC_DATA_BOOL(key) GameData::getInstance()->getBoolFromKey(key)
-#define winSize Director::getInstance()->getWinSize()
 class GameData
 {
 public:
-	/*
-	 * 2017/08/17
-	 * @brief 数据是单例模式
-	 */
-	static GameData* getInstance();
+	static GameData* getIntance();
+	CC_SYNTHESIZE(int, _gold, Gold);
+	CC_SYNTHESIZE(bool, _isBeginner, IsBeginner);
+	CC_SYNTHESIZE(float, _soundVolume, SoundVolume);
+	CC_SYNTHESIZE(float, _musicVolume, MusicVolume);
 	void init();
-	~GameData();
-	
+
 	/*
-	 * 2017/08/17
-	 * @brief 将Dictionary的一些接口进行进一步的封装
+	 * 2017/09/12
+	 * @brief 将数据存储
 	 */
-	const char* getStringFromKey(const std::string &key)const ;
-	int getIntFromKey(const std::string &key)const;
-	float getFloatFromKey(const std::string &key)const;
-	bool getBoolFromKey(const std::string &key)const;
+	void flush();
+
+	/*
+	 * 2017/09/12
+	 * @brief 改变金币
+	 */
+	void alterGold(int delta);
+
+	/*
+	 * 2017/09/12
+	 * @brief 重置数据
+	 */
+	void reset();
+	/*
+	 * 2017/09/12
+	 * @brief 将单实例销毁
+	 */
+	void purge();
 protected:
 	static GameData* _sharedGameData;
-	Dictionary* _data;
-	
+private:
+	GameData();
+	~GameData();
 };
-#endif
 
+#endif

@@ -1,5 +1,5 @@
 #include "FishLayer.h"
-#include "GameData.h"
+#include "StaticData.h"
 bool FishLayer::init()
 {
 	if (!Layer::init())
@@ -21,13 +21,13 @@ void FishLayer::addFish(float dt)
 {
 	
 	int fishesWillAddedNumber = random(5, 15);
-	//int fishesWillAddedNumber = 10;//todo
 	int fishesHasAdded = 0;
 	Fishes* fish;
 	for (auto iter:_fishes)
 	{
 		fish = (Fishes*)iter;
-		if (fish->getParent()==nullptr)
+		//if (fish->getParent()==nullptr)
+		if(fish->isRunning()==false)
 		{
 			this->resetFish(fish);
 			this->addChild(fish);

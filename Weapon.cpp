@@ -1,5 +1,5 @@
 #include "Weapon.h"
-#include "GameData.h"
+#include "StaticData.h"
 
 bool Weapon::init(CannonType type)
 {
@@ -78,11 +78,17 @@ cocos2d::Rect Weapon::getFishNetCollisionArea()
 {
 	if ((int)this->getWeaponStatus()==2)
 	{
-		/*CCPoint origin = this->getParent()->convertToWorldSpace(this->getPosition());
-		CCSize size = _fishNet->getContentSize();
+		/*
+		 * 2017/09/12
+		 * @brief A->convertToWorldSPace(B->getPosition())
+		 * 表示以A坐标系为起点，将B转换为在A中的坐标
+		 */
+		Point origin = this->getParent()->convertToWorldSpace(this->getPosition());
+		Size size = _fishNet->getContentSize();
 		
-		return CCRectMake(origin.x - size.width*0.5, origin.y - size.height*0.5, size.width, size.height);*/
-		return this->getBoundingBox();
+		return CCRectMake(origin.x - size.width*0.5, origin.y - size.height*0.5, size.width, size.height);
+		//return this->getBoundingBox();
+		
 	}
 	else
 	{

@@ -22,6 +22,7 @@ protected:
 	MenuItemSprite* _add_button;
 	MenuItemSprite* _reduce_button;
 	Weapon* _weapon;
+	
 	int _cannonLevel;
 };
 #endif

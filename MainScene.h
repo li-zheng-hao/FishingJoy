@@ -1,7 +1,7 @@
 #ifndef MainScene_H
 #define MainScene_H
 #include "cocos2d.h"
-#include "GameData.h"
+#include "StaticData.h"
 #include "TouchLayer.h"
 #include "FishLayer.h"
 #include "CannonLayer.h"
@@ -9,6 +9,7 @@
 #include "BackGroundLayer.h"
 #include "Fishes.h"
 #include "Cannon.h"
+#include "GameData.h"
 USING_NS_CC;
 class MainScene:public Scene
 {

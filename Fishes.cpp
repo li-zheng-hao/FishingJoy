@@ -1,5 +1,5 @@
 #include "Fishes.h"
-#include "GameData.h"
+#include "StaticData.h"
 typedef enum ActionType
 {
 	k_Fish_Animate,
@@ -30,8 +30,8 @@ bool Fishes::init(FishType type)
 	animate->setTag(k_Fish_Animate);
 	String* spriteName = String::createWithFormat(STATIC_DATA_STRING("fishtypeformat"), type + 1);
 	_sprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(spriteName->getCString())));
-	String realname = STATIC_DATA_STRING(spriteName->getCString());
-	_sprite = Sprite::create(realname.getCString());
+	//String realname = STATIC_DATA_STRING(spriteName->getCString());
+	//_sprite = Sprite::create(realname.getCString());
 	this->addChild(_sprite);
 	_sprite->runAction(RepeatForever::create(animate));
 	return true;

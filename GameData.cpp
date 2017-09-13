@@ -1,7 +1,35 @@
 #include "GameData.h"
-GameData* GameData::_sharedGameData = nullptr;
+#include "StaticData.h"
 
-GameData * GameData::getInstance()
+
+GameData* GameData::_sharedGameData=nullptr;
+
+void GameData::reset()
+{
+	int gold= STATIC_DATA_INT("default_gold");
+	this->setGold(gold);
+	this->setIsBeginner(true);
+	this->setMusicVolume(1);
+	this->setSoundVolume(1);
+	this->flush();
+}
+
+void GameData::purge()
+{
+}
+
+GameData::GameData()
+{
+	
+}
+
+
+GameData::~GameData()
+{
+	this->flush();
+}
+
+GameData* GameData::getIntance()
 {
 	if (!_sharedGameData)
 	{
@@ -13,41 +41,38 @@ GameData * GameData::getInstance()
 
 void GameData::init()
 {
-	_data = Dictionary::createWithContentsOfFile("file.plist");
-	/*
-	 * 2017/08/17
-	 * @brief retain之后记得release
-	 */
-	CC_SAFE_RETAIN(_data);
+	_isBeginner = UserDefault::sharedUserDefault()->getBoolForKey("beginner", true);
+	if (_isBeginner)
+	{
+		this->reset();
+		this->flush();
+		this->setIsBeginner(false);
+	}
+	else
+	{
+		_isBeginner = UserDefault::sharedUserDefault()->getBoolForKey("beginner");
+		_gold = UserDefault::sharedUserDefault()->getIntegerForKey("gold");
+		_soundVolume = UserDefault::sharedUserDefault()->getFloatForKey("sound");
+		_musicVolume = UserDefault::sharedUserDefault()->getFloatForKey("music");
+		UserDefault::sharedUserDefault()->purgeSharedUserDefault();
+
+	}
 }
 
-GameData::~GameData()
+void GameData::flush()
 {
-	/*
-	 * 2017/08/17
-	 * @brief 防止内存泄漏
-	 */
-	CC_SAFE_RELEASE(_data);
-	CC_SAFE_DELETE(_sharedGameData);
+	UserDefault::sharedUserDefault()->setBoolForKey("beginner", _isBeginner);
+	UserDefault::sharedUserDefault()->setIntegerForKey("gold", _gold);
+	UserDefault::sharedUserDefault()->setFloatForKey("sound", _soundVolume);
+	UserDefault::sharedUserDefault()->setFloatForKey("music", _musicVolume);
+	UserDefault::sharedUserDefault()->flush();
+	UserDefault::sharedUserDefault()->purgeSharedUserDefault();
+
+
+
 }
 
-const char* GameData::getStringFromKey(const std::string& key) const
+void GameData::alterGold(int delta)
 {
-	return _data->valueForKey(key)->getCString();
+	this->setGold(_gold + delta);
 }
-
-int GameData::getIntFromKey(const std::string &key) const
-{
-	return _data->valueForKey(key)->intValue();
-}
-
-float GameData::getFloatFromKey(const std::string &key) const
-{
-	return _data->valueForKey(key)->floatValue();
-}
-
-bool GameData::getBoolFromKey(const std::string & key) const
-{
-	return _data->valueForKey(key)->boolValue();
-}
-

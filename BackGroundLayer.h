@@ -1,7 +1,7 @@
 #ifndef BackGroundLayer_H
 #define BackGroundLayer_H
 #include "cocos2d.h"
-#include "GameData.h"
+#include "StaticData.h"
 USING_NS_CC;
 class BackGroundLayer :
 	public Layer

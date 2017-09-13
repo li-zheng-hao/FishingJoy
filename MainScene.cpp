@@ -48,7 +48,7 @@ bool MainScene::init()
 
 void MainScene::preloadSources()
 {
-	GameData::getInstance();
+	StaticData::getInstance();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("data.plist");
 
 	/*
@@ -79,6 +79,7 @@ void MainScene::preloadSources()
 	 * 2017/08/19
 	 * @brief 加载炮台发射炮弹时放大动画
 	 */
+	
 	for (int fishtype=k_Cannon_Type_1;fishtype<k_Cannon_Type_Count;fishtype++)
 	{
 		Vector<SpriteFrame*> newframes(2);

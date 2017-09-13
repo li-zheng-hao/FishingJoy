@@ -1,5 +1,5 @@
 #include "CannonLayer.h"
-#include "GameData.h"
+#include "StaticData.h"
 
 bool CannonLayer::init()
 {
