@@ -23,7 +23,7 @@ Fishes * Fishes::create(FishType type)
 bool Fishes::init(FishType type)
 {
 	_type = type;
-	//todo
+	
 	auto fishname = String::createWithFormat(STATIC_DATA_STRING("fishanimationformat"), type);
 	auto animation = AnimationCache::getInstance()->getAnimation(fishname->getCString());
 	auto animate = Animate::create(animation);

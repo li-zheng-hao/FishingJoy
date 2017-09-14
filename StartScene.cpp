@@ -53,9 +53,28 @@ bool StartScene::init()
 	this->addChild(progress);
 	
 	//异步加载资源
-	Director::getInstance()->getTextureCache()->addImageAsync("data.png", CC_CALLBACK_1
-	(StartScene::sourcesCallBack, this));
+	/*
 
+	下面使用的call_back_1也就是这样
+	std::function<void(Texture2D*)> f = std::bind(&StartScene::sourcesCallBack, this, std::placeholders::_1);
+	从此可见一斑：callfunc之类的调用方式如下：
+	void CallFuncN::execute()
+	{
+		if (_callFuncN)
+		{
+			(_selectorTarget->*_callFuncN)(_target);
+		}
+		else if (_functionN)
+		{
+			_functionN(_target);
+		}
+	}
+	*/
+	Director::getInstance()->getTextureCache()->addImageAsync("data.png", CC_CALLBACK_1(StartScene::sourcesCallBack, this));
+	
+
+
+	StartScene* start;
 	return true;
 }
 
@@ -181,6 +200,7 @@ void StartScene::sourcesCallBack(Texture2D* sender)
 
 void StartScene::progressMaxCallBack()
 {
+	//todo 添加开始的菜单按钮
 	CCLOG("successful!");
 }
 
