@@ -9,6 +9,7 @@
 #include "Fishes.h"
 #include "Cannon.h"
 #include "GameData.h"
+#include "MainScene.h"
 enum 
 {
 	k_Sprite_Type_Progress=0
@@ -190,9 +191,13 @@ void StartScene::preloadSources()
 
 void StartScene::sourcesCallBack(Texture2D* sender)
 {
-	this->preloadSources();
+
 	auto progress=(ProgressTimer*)this->getChildByTag(k_Sprite_Type_Progress);
-	auto ac=ProgressTo::create(2.0f, 100);
+	auto prepare=ProgressTo::create(1.0f, 50);
+	progress->runAction(prepare);
+	this->preloadSources();
+
+	auto ac=ProgressTo::create(1.0f, 100);
 	auto callfunc = CallFunc::create(this, callfunc_selector(StartScene::progressMaxCallBack));
 	auto seq = Sequence::create(ac, callfunc,NULL);
 	progress->runAction(seq);
@@ -202,5 +207,8 @@ void StartScene::progressMaxCallBack()
 {
 	//todo 添加开始的菜单按钮
 	CCLOG("successful!");
+	auto mainscene = MainScene::create();
+	auto transition = TransitionCrossFade::create(2.0f, mainscene);
+	Director::getInstance()->pushScene(transition);
 }
 
