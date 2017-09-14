@@ -16,7 +16,6 @@ class MainScene:public Scene
 public:
 	CREATE_FUNC(MainScene);
 	bool init();
-	void preloadSources();
 	/*
 	 * 2017/08/19
 	 * @brief 对炮台进行一些操作

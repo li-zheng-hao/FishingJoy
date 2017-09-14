@@ -16,7 +16,7 @@ bool MainScene::init()
 		 * 2017/08/17
 		 * @brief 游戏数据初始化
 		 */
-		preloadSources();
+		//preloadSources();
 		
 
 		/*
@@ -46,115 +46,6 @@ bool MainScene::init()
 	
 }
 
-void MainScene::preloadSources()
-{
-	StaticData::getInstance();
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("data.plist");
-
-	/*
-	 * 2017/08/17
-	 * @brief 加载鱼类的动画
-	 */
-	auto animationcache = AnimationCache::getInstance();
-	int framecount = STATIC_DATA_INT("fishframecount");
-	for (int type=k_Fish_One;type<k_Fish_Count;type++ )
-	{
-		Vector<SpriteFrame*> frames(framecount);
-		for (int i=1;i<=framecount;i++)
-		{
-			String key = STATIC_DATA_STRING("fish_frame_name_count");
-			String* filename = String::createWithFormat(STATIC_DATA_STRING("fish_frame_name_count"), type+1, i);
-			String realfilename = STATIC_DATA_STRING(filename->getCString());
-			SpriteFrame* frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(filename->getCString()));
-			frames.pushBack(frame);
-		}
-		auto animation = Animation::createWithSpriteFrames(frames);
-		animation->setDelayPerUnit(0.1f);
-		String* animationName = String::createWithFormat(STATIC_DATA_STRING("fishanimationformat"),type);
-
-		animationcache->addAnimation(animation, animationName->getCString());
-	}
-
-	/*
-	 * 2017/08/19
-	 * @brief 加载炮台发射炮弹时放大动画
-	 */
-	
-	for (int fishtype=k_Cannon_Type_1;fishtype<k_Cannon_Type_Count;fishtype++)
-	{
-		Vector<SpriteFrame*> newframes(2);
-		for (int j=1;j<=2;j++)
-		{
-			String* frameName = String::createWithFormat("Cannon%d_%d", fishtype + 1, j);
-			SpriteFrame* sprite = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(frameName->getCString()));
-			newframes.pushBack(sprite);
-		}
-		auto animation = Animation::createWithSpriteFrames(newframes);
-		animation->setDelayPerUnit(0.2f);
-		String* animationName = String::createWithFormat("cannonanimation%d",fishtype);
-		AnimationCache::getInstance()->addAnimation(animation, animationName->getCString());
-	}
-
-	/*
-	 * 2017/08/19
-	 * @brief 加载渔网的动画
-	 */
-	Vector<SpriteFrame*> frames(11);
-	for (int j = 1; j <= 11; j++)
-	{
-		String* frameName = String::createWithFormat("net%d",j);
-		SpriteFrame* sprite = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(frameName->getCString()));
-		frames.pushBack(sprite);
-	}
-	auto animation = Animation::createWithSpriteFrames(frames);
-	animation->setDelayPerUnit(0.04f);
-	AnimationCache::getInstance()->addAnimation(animation, "net");
-
-
-	/*
-	 * 2017/08/22
-	 * @brief 鱼被捕捉成功的动画,一共两种，第一种有2帧，第二种有4帧
-	 */
-
-	 int fishcaughttype = STATIC_DATA_INT("fishcaughtcountone");
-	// CCLOG("mainscene fishcaughttypeone:%d ", fishcaughttype);
-	 framecount = STATIC_DATA_INT("fishcaughtcountoneframes");
-	 int fishtype = 1;
-	 for (;fishtype<=fishcaughttype;fishtype++)
-	 {
-		 Vector<SpriteFrame*> vec(framecount);
-		 for (int j=1;j<=framecount;j++)
-		 {
-
-			 String* framename = String::createWithFormat("fish%d_catch_%d",fishtype,j);
-			 CCLOG("framename :%s", framename->getCString());
-			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(framename->getCString()));
-			 vec.pushBack(spr);
-		 }
-		 auto animation = Animation::createWithSpriteFrames(vec);
-		 animation->setDelayPerUnit(0.2f);
-		 auto animationName = String::createWithFormat("fishcaught%d", fishtype);
-		 AnimationCache::getInstance()->addAnimation(animation,animationName->getCString());
-	 }
-	 fishcaughttype = STATIC_DATA_INT("fishcaughtcounttwo");
-
-	 framecount = STATIC_DATA_INT("fishcaughtcounttwoframes");
-	 for (;fishtype<=fishcaughttype;fishtype++)
-	 {
-		 Vector<SpriteFrame*> vec(framecount);
-		 for (int j = 1; j <= framecount; j++)
-		 {
-			 String* framename = String::createWithFormat("fish%d_catch_%d", fishtype, j);
-			 SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(framename->getCString()));
-			 vec.pushBack(spr);
-		 }
-		 auto animation = Animation::createWithSpriteFrames(vec);
-		 animation->setDelayPerUnit(0.2f);
-		 auto animationName = String::createWithFormat("fishcaught%d", fishtype);
-		 AnimationCache::getInstance()->addAnimation(animation, animationName->getCString());
-	 }
-
-}
 
 void MainScene::cannonAimAt(const Vec2 & pos)
 {
@@ -179,9 +70,14 @@ void MainScene::checkAreaBetweenFishAndFishNet(float dt)
 			{
 				
 				auto size = fish->getFishRect();
-				if (size.intersectsRect(fishNetArea))
+				/*
+				 * 2017/09/14
+				 * @brief 必须检测鱼的状态是否被捕捉，否则beCaught函数会被调用很多次，因为这是一个定时器，在不断的查询
+				 */
+				if (size.intersectsRect(fishNetArea)&&!fish->CheckStatusIsCaughting())
 				{
 					fish->beCaught();
+					continue;
 				}
 			}
 			

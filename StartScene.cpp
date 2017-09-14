@@ -150,7 +150,6 @@ void StartScene::preloadSources()
 	*/
 
 	int fishcaughttype = STATIC_DATA_INT("fishcaughtcountone");
-	// CCLOG("mainscene fishcaughttypeone:%d ", fishcaughttype);
 	framecount = STATIC_DATA_INT("fishcaughtcountoneframes");
 	int fishtype = 1;
 	for (; fishtype <= fishcaughttype; fishtype++)
@@ -160,7 +159,6 @@ void StartScene::preloadSources()
 		{
 
 			String* framename = String::createWithFormat("fish%d_catch_%d", fishtype, j);
-			CCLOG("framename :%s", framename->getCString());
 			SpriteFrame* spr = SpriteFrameCache::getInstance()->getSpriteFrameByName(STATIC_DATA_STRING(framename->getCString()));
 			vec.pushBack(spr);
 		}
@@ -206,7 +204,6 @@ void StartScene::sourcesCallBack(Texture2D* sender)
 void StartScene::progressMaxCallBack()
 {
 	//todo 添加开始的菜单按钮
-	CCLOG("successful!");
 	auto mainscene = MainScene::create();
 	auto transition = TransitionCrossFade::create(2.0f, mainscene);
 	Director::getInstance()->pushScene(transition);

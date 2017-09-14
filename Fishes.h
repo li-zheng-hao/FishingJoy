@@ -19,6 +19,11 @@ typedef enum {
 	k_Fish_Fourteen,
 	k_Fish_Count
 }FishType;
+enum FishStatus
+{
+	k_Fish_beCaughting=0,
+	k_Fish_Moving
+};
 class Fishes:
 	public Node
 {
@@ -38,7 +43,11 @@ public:
 	 */
 	void reset();
 
-
+	/*
+	 * 2017/09/14
+	 * @brief 检查鱼的状态是否为被捕捉，是则返回true
+	 */
+	bool CheckStatusIsCaughting();
 	/*
 	 * 2017/08/21
 	 * @brief 鱼被捕捉的函数
@@ -53,7 +62,7 @@ public:
 public:
 	FishType _type;
 	Sprite* _sprite;
-
+	FishStatus _status;
 protected:
 
 	void callfunc();

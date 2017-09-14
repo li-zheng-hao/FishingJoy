@@ -51,7 +51,6 @@ void FishLayer::addFish(float dt)
 			freeFiss++;
 		}
 	}
-	CCLOG("current free fish::%d", freeFiss);
 }
 
 void FishLayer::resetFish(Fishes * fish)
