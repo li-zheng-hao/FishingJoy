@@ -7,8 +7,8 @@ class StartScene:public Scene
 public:
 	CREATE_FUNC(StartScene);
 	virtual bool init();
-	void preloadSources();
 private:
+	void preloadSources();
 	void sourcesCallBack(Texture2D* sender);
 	void progressMaxCallBack();
 };
